@@ -45,25 +45,48 @@ body {
 	color: white;
 }
 
-.wrapper {
-	display: flex;
-	flex-direction: column;
-}
-
 /* Header */
 
 header {
 	padding: 1.25em;
+	position: absolute;
+	width: 100%;
 }
 
 header a {
 	font-size: 1.33em;
+	line-height: 0;
 	color: white;
 	text-decoration: none;
 	opacity: .6;
-	transition: opacity .5s linear;
+	transition: opacity .3s linear;
 }
 
 header a:hover {
 	opacity: 1;
+}
+
+/* Main Content */
+
+.content-wrapper {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+aside {
+	flex-basis: 25%;
+	height: 100%;
+	/*left: -25%;*/
+	background-color: white;
+	color: #333;
+}
+
+main {
+	height: 100%;
+	flex-basis: 75%;
+	background-color: blue;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

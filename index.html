@@ -13,22 +13,26 @@
 </head>
 
 <body>
-
-<div class="wrapper">
 	<header>
 		<nav>
 			<a href="#">About</a>
 		</nav>
 	</header>
-	<main>
-			<form>
-				<h1>Set meditation timer</h1>
-				<input id="hrs" type="number" value="0" min="0" max="24">
-				<input id="mins" type="number" value="0" min="0" max="99">
-				<button>Start</button>
-			</form>
-	</main>
-</div>
+	<div class="content-wrapper">
+		<aside>
+		<button aria-label="Close About Sidebar">&times;</button>
+			<h1>Basic Meditation Timer</h1>
+			<p>This is a simple timer which uses a Basu bell sound to gently start and end your meditation session. Works on desktop and mobile devices.
+		</aside>
+		<main>
+				<form>
+					<h2>Set meditation timer</h2>
+					<input id="hrs" type="number" value="0" min="0" max="24"><label for="hrs">hrs</label>
+					<input id="mins" type="number" value="0" min="0" max="99"><label for="mins">mins</label>
+					<button>Start</button>
+				</form>
+		</main>
+	</div>
 
 
 <script src="javascript.js"></script>
