@@ -45,6 +45,11 @@ body {
 	color: white;
 }
 
+.wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
 /* Header */
 
 header {
