@@ -45,7 +45,20 @@ body {
 	color: white;
 }
 
+/* Header */
+
+header {
+	padding: 1.25em;
+}
+
 header a {
-	font-size: 1.25em;
+	font-size: 1.33em;
 	color: white;
+	text-decoration: none;
+	opacity: .6;
+	transition: opacity .5s linear;
+}
+
+header a:hover {
+	opacity: 1;
 }
