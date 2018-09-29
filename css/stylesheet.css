@@ -85,8 +85,30 @@ aside {
 main {
 	height: 100%;
 	flex-basis: 75%;
-	background-color: blue;
+	/*background-color: blue;*/
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.form-wrapper {
+	margin-top: -10em;
+}
+
+h2 {
+	font-size: 3em;
+	margin: 0 0 .3em;
+}
+
+form {
+	background: rgba(0,0,0,0.3);
+	font-size: 2em;
+	padding: 1em;
+	border-radius: 1em;
+}
+
+input[type="number"] {
+	color: rgba(0,0,0,1);
+	background: rgba(0,0,0,0.5);
+	border: 0;
 }
