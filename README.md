@@ -9,9 +9,3 @@ In order to use this timer, download the zip file for this project and unzip it.
 ## Author
 
 - Tom Tillistrand
-
-## Technical Skills Used
-
-- HTML5
-- CSS3
-- JavaScript (w/ jQuery)
