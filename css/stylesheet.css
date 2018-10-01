@@ -44,6 +44,7 @@ body {
 	font-family: Lato, sans-serif;
 	color: white;
 	font-size: 1.125em; /* Equals 18px on default browser settings */
+	line-height: 1.5;
 }
 
 /* Header */
@@ -132,6 +133,24 @@ aside button:focus {
 h1 {
 	font-size: 1.5em;
 	text-align: center;
+	margin-bottom: 0;
+	line-height: 1.2;
+}
+
+aside h2 {
+	font-size: 1.5em;
+	text-align: center;
+	margin-bottom: 0;
+	line-height: 1.2;
+}
+
+aside a {
+	color: #FF8664;
+	text-decoration: none;
+}
+
+aside a:hover {
+	text-decoration: underline;
 }
 
 /* Timer */
@@ -144,6 +163,7 @@ main h2 {
 	font-size: 2.5em;
 	margin: 0 0 .3em;
 	text-align: center;
+	line-height: 1;
 }
 
 form {
