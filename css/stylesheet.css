@@ -43,6 +43,7 @@ body {
 	background: linear-gradient(to top, #ff5e62, #ff9966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	font-family: Lato, sans-serif;
 	color: white;
+	font-size: 1.125em; /* Equals 18px on default browser settings */
 }
 
 /* Header */
@@ -75,22 +76,22 @@ header a:hover {
 }
 
 aside {
-	width: 280px;
+	width: 320px;
 	height: 100%;
 	top: 0;
-	left: -280px;
+	left: -320px;
 	position: absolute;
 	background-color: white;
 	color: #333;
 	display: flex;
 	flex-direction: column;
 	z-index: 1000;
-	transition: transform .1s linear;
-	padding: 1em;
+	transition: transform .2s ease-out;
+	padding: .5em 1.5em;
 }
 
 .toggle-on aside {
-	transform: translateX(280px);
+	transform: translateX(320px);
 }
 
 main {
@@ -101,11 +102,11 @@ main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	transition: margin-left .1s linear;
+	transition: margin-left .2s ease-out;
 }
 
 .toggle-on main {
-	margin-left: 280px;
+	margin-left: 320px;
 }
 
 /* Sidebar */
@@ -128,21 +129,26 @@ aside button:focus {
 	outline: none;
 }
 
+h1 {
+	font-size: 1.5em;
+	text-align: center;
+}
+
 /* Timer */
 
 .form-wrapper {
 	margin-top: -10em;
 }
 
-h2 {
-	font-size: 3em;
+main h2 {
+	font-size: 2.5em;
 	margin: 0 0 .3em;
 	text-align: center;
 }
 
 form {
 	background: rgba(0,0,0,0.3);
-	font-size: 2.5em;
+	font-size: 2em;
 	padding: 1em;
 	border-radius: 1em;
 	color: rgba(0,0,0,0.5);
