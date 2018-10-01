@@ -4,7 +4,7 @@ This is a basic meditation timer that uses a Basu bell to gently start and end m
 
 ## Getting Started
 
-In order to use this timer, download the zip file for this project. Unzip it and open the index.html file in a browser.
+In order to use this timer, download the zip file for this project and unzip it. Then open this project's folder, find the index.html file, and open it in a browser.
 
 ## Author
 
