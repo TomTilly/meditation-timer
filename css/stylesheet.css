@@ -51,6 +51,7 @@ header {
 	padding: 1.25em;
 	position: absolute;
 	width: 100%;
+	z-index: 100;
 }
 
 header a {
@@ -66,30 +67,68 @@ header a:hover {
 	opacity: 1;
 }
 
-/* Main Content */
+/* Main Content Area */
 
 .content-wrapper {
-	display: flex;
-	flex-direction: row;
 	height: 100%;
+	position: relative;
 }
 
 aside {
-	flex-basis: 25%;
+	width: 280px;
 	height: 100%;
-	/*left: -25%;*/
+	top: 0;
+	left: -280px;
+	position: absolute;
 	background-color: white;
 	color: #333;
+	display: flex;
+	flex-direction: column;
+	z-index: 1000;
+	transition: transform .1s linear;
+	padding: 1em;
+}
+
+.toggle-on aside {
+	transform: translateX(280px);
 }
 
 main {
 	height: 100%;
-	flex-basis: 75%;
-	/*background-color: blue;*/
+	/*margin-left: 280px;*/
+	flex-grow: 1;
+	/*transform: translateX(-280px);*/
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	transition: margin-left .1s linear;
 }
+
+.toggle-on main {
+	margin-left: 280px;
+}
+
+/* Sidebar */
+
+aside button {
+	background: none;
+	border: none;
+	font-size: 3em;
+	font-weight: bold;
+	align-self: flex-end;
+	line-height: 1;
+	padding: 0;
+}
+
+aside button:hover {
+	cursor: pointer;
+}
+
+aside button:focus {
+	outline: none;
+}
+
+/* Timer */
 
 .form-wrapper {
 	margin-top: -10em;
@@ -119,6 +158,10 @@ input[type="number"] {
 	box-shadow: inset 0 0 8px 10px rgba(0,0,0,0.1);
 }
 
+label:first-of-type {
+	margin-right: .3em;
+}
+
 input[type="number"]:focus {
 	outline: none;
 }
@@ -130,10 +173,10 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 form button {
-	background: rgba(0,0,0,0.4);
+	background: rgba(0,0,0,0.3);
 	border-radius: 10px;
 	padding: .3em;
 	margin-left: .5em;
-	color: rgba(255,255,255, 0.6);
+	color: rgba(255,255,255, 0.7);
 	border: 0;
 }
