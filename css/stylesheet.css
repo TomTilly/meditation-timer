@@ -69,30 +69,11 @@ header a:hover {
 	opacity: 1;
 }
 
-/* Main Content Area */
+/* Main Content */
 
 .content-wrapper {
 	height: 100%;
 	position: relative;
-}
-
-aside {
-	width: 320px;
-	height: 100%;
-	top: 0;
-	left: -320px;
-	position: absolute;
-	background-color: white;
-	color: #333;
-	display: flex;
-	flex-direction: column;
-	z-index: 1000;
-	transition: transform .2s ease-out;
-	padding: .5em 1.5em;
-}
-
-.toggle-on aside {
-	transform: translateX(320px);
 }
 
 main {
@@ -110,47 +91,11 @@ main {
 	margin-left: 320px;
 }
 
-/* Sidebar */
-
-aside button {
-	background: none;
-	border: none;
-	font-size: 3em;
-	font-weight: bold;
-	align-self: flex-end;
-	line-height: 1;
-	padding: 0;
-}
-
-aside button:hover {
-	cursor: pointer;
-}
-
-aside button:focus {
-	outline: none;
-}
-
-h1 {
-	font-size: 1.5em;
-	text-align: center;
-	margin-bottom: 0;
-	line-height: 1.2;
-}
-
-aside h2 {
-	font-size: 1.5em;
-	text-align: center;
-	margin-bottom: 0;
-	line-height: 1.2;
-}
-
-aside a {
-	color: #FF8664;
-	text-decoration: none;
-}
-
-aside a:hover {
-	text-decoration: underline;
+@media (max-width: 767px) {
+	.toggle-on main {
+		transition: none;
+		margin-left: 0;
+	}
 }
 
 /* Timer Form */
@@ -161,7 +106,7 @@ aside a:hover {
 
 main h2 {
 	font-size: 2.5em;
-	margin: 0 0 .3em;
+	margin: 0 0 .5em;
 	text-align: center;
 	line-height: 1;
 }
@@ -226,4 +171,81 @@ form button {
 	margin-left: .5em;
 	color: rgba(255,255,255, 0.7);
 	border: 0;
+}
+
+/* Sidebar */
+
+aside button {
+	background: none;
+	border: none;
+	font-size: 3em;
+	font-weight: bold;
+	align-self: flex-end;
+	line-height: 1;
+	padding: 0;
+}
+
+aside button:hover {
+	cursor: pointer;
+}
+
+aside button:focus {
+	outline: none;
+}
+
+h1 {
+	font-size: 1.5em;
+	text-align: center;
+	margin-bottom: 0;
+	line-height: 1.2;
+}
+
+aside h2 {
+	font-size: 1.5em;
+	text-align: center;
+	margin-bottom: 0;
+	line-height: 1.2;
+}
+
+aside a {
+	color: #FF8664;
+	text-decoration: none;
+}
+
+aside a:hover {
+	text-decoration: underline;
+}
+
+
+aside {
+	width: 320px;
+	height: 100%;
+	top: 0;
+	left: -320px;
+	position: absolute;
+	background-color: white;
+	color: #333;
+	display: flex;
+	flex-direction: column;
+	z-index: 1000;
+	transition: transform .2s ease-out;
+	padding: .5em 1.5em;
+}
+
+.toggle-on aside {
+	transform: translateX(320px);
+}
+
+/* Change sidebar to take up entire screen on tablets and below */
+
+@media (max-width: 767px) {
+	.toggle-on aside {
+		transition: none;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		width: auto;
+		transform: none;
+	}
 }
