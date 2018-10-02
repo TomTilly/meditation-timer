@@ -173,6 +173,16 @@ form button {
 	border: 0;
 }
 
+@media (max-width: 991px) {
+	.toggle-on main h2 {
+		font-size: 2em;
+	}
+
+	.toggle-on form {
+		font-size: 1.5em;
+	}
+}
+
 /* Sidebar */
 
 aside button {
