@@ -38,13 +38,13 @@ html, body {
 }
 
 body {
-	background: #ff9966;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to top, #ff5e62, #ff9966);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to top, #ff5e62, #ff9966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	font-family: Lato, sans-serif;
 	color: white;
 	font-size: 1.125em; /* Equals 18px on default browser settings */
 	line-height: 1.5;
+	background: #ff9966;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to top, #ff5e62, #ff9966);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to top, #ff5e62, #ff9966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 /* Header */
@@ -173,7 +173,19 @@ form button {
 	border: 0;
 }
 
+form button:hover {
+	color: rgba(255,255,255,0.8);
+}
+
+form button:focus {
+	outline: none;
+}
+
 @media (max-width: 991px) {
+	.form-wrapper {
+		margin: 0;
+	}
+
 	.toggle-on main h2 {
 		font-size: 2em;
 	}
@@ -183,7 +195,51 @@ form button {
 	}
 }
 
+@media (max-width: 767px) {
+
+	main h2 {
+		font-size: 2em;
+	}
+
+	form {
+		font-size: 1.5em;
+	}
+}
+
+@media (max-width: 575px) {
+	main h2 {
+		font-size: 1.75em;
+	}
+
+	form {
+		font-size: 1.25em;
+	}
+
+	form button {
+
+	}
+}
+
 /* Sidebar */
+
+aside {
+	width: 320px;
+	min-height: 100%;
+	top: 0;
+	left: -320px;
+	position: absolute;
+	background-color: white;
+	color: #333;
+	display: flex;
+	flex-direction: column;
+	z-index: 1000;
+	transition: transform .2s ease-out;
+	padding: .5em 1.5em;
+}
+
+.toggle-on aside {
+	transform: translateX(320px);
+}
 
 aside button {
 	background: none;
@@ -224,26 +280,6 @@ aside a {
 
 aside a:hover {
 	text-decoration: underline;
-}
-
-
-aside {
-	width: 320px;
-	height: 100%;
-	top: 0;
-	left: -320px;
-	position: absolute;
-	background-color: white;
-	color: #333;
-	display: flex;
-	flex-direction: column;
-	z-index: 1000;
-	transition: transform .2s ease-out;
-	padding: .5em 1.5em;
-}
-
-.toggle-on aside {
-	transform: translateX(320px);
 }
 
 /* Change sidebar to take up entire screen on tablets and below */
