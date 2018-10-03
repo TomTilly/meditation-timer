@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
 	// Hr and Minute Inputs
-	var $hrsEl = $('input[type="number"]:first-of-type');
-	var $minsEl = $('input[type="number"]:last-of-type');
+	var $hrsEl = $('input[type="text"]:first-of-type');
+	var $minsEl = $('input[type="text"]:last-of-type');
 
 	// Open sidebar
 	$('nav a').on('click', function(e){
@@ -20,6 +20,9 @@ $(document).ready(function(){
 		e.preventDefault();
 		hours = Number($hrsEl.val());
 		minutes = Number($minsEl.val());
+		console.log($hrsEl.val());
+		console.log(hours);
+		console.log(minutes);
 		$('form div').removeClass('show'); // Hide error message in case it was shown for a previous submission
 		if(hours === 0 && minutes === 0) {
 			$('form div').text('*Enter a number in at least one field below');

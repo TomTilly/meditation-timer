@@ -31,8 +31,8 @@
 				<h2>Set meditation timer</h2>
 				<form novalidate>
 					<div>Please enter a number in at least one field below</div>
-					<input id="hrs" type="number" min="0" max="24"><label for="hrs">hrs</label>
-					<input id="mins" type="number" min="0" max="59"><label for="mins">mins</label>
+					<input id="hrs" type="text" pattern="\d*" maxlength="2" size="2"><label for="hrs">hrs</label>
+					<input id="mins" type="text" pattern="\d*" maxlength="2" size="2"><label for="mins">mins</label>
 					<button>Start</button>
 				</form>
 			</div>
