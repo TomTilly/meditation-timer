@@ -236,6 +236,10 @@ form div {
 	color: rgba(255,255,255,0.7);
 }
 
+.timer-colon {
+	vertical-align: .1em;
+}
+
 .timer button {
 	border: none;
 }
