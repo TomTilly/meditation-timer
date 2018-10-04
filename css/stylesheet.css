@@ -47,14 +47,6 @@ body {
 	background: linear-gradient(to top, #ff5e62, #ff9966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-.show {
-	display: block;
-}
-
-.hide {
-	display: none;
-}
-
 /* Header */
 
 header {
@@ -229,6 +221,58 @@ form div {
 
 /* Timer */
 
+/* Temp */
+
+.timer {
+	display: block !important;
+}
+
+.timer-wrapper h2, .timer-wrapper form{
+	display: none !important; 
+}
+
+.screen {
+	font-size: 5em;
+	color: rgba(255,255,255,0.7);
+}
+
+.timer button {
+	border: none;
+}
+
+.timer button:focus {
+	outline: none;
+}
+
+.end-early-msg {
+	display: block;
+	margin: 0 auto;
+	padding: .6em .8em;
+	background: rgba(0,0,0,0.3);
+	color: rgba(255,255,255,0.7);
+	border-radius: 1em;
+	transition: background .3s linear;
+	/*visibility: hidden;*/
+}
+
+.end-early-msg:hover {
+	background:rgba(0,0,0,0.4);
+}
+
+.pause-btn, .play-btn {
+	display: block;
+	margin: 0 auto 2rem;
+	height: 4.2rem; /* Height needs to be equal to font-size when it expands so that it doesn't push other elements up */
+	font-size: 4rem;
+	line-height: 1;
+	background: none;
+	color: white;
+	transition: font-size .2s linear;
+}
+
+.pause-btn:hover, .play-btn:hover {
+	font-size: 4.2rem;
+}
 
 
 /* Sidebar */
@@ -305,4 +349,14 @@ aside a:hover {
 		width: auto;
 		transform: none;
 	}
+}
+
+/* Misc */
+
+.show {
+	display: block;
+}
+
+.hide {
+	display: none;
 }
