@@ -47,6 +47,14 @@ body {
 	background: linear-gradient(to top, #ff5e62, #ff9966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.show {
+	display: block;
+}
+
+.hide {
+	display: none;
+}
+
 /* Header */
 
 header {
@@ -100,7 +108,7 @@ main {
 
 /* Timer Form */
 
-.form-wrapper {
+.timer-wrapper {
 	margin-top: -10em;
 }
 
@@ -184,12 +192,8 @@ form div {
 	line-height: 1;
 }
 
-.show {
-	display: block;
-}
-
 @media (max-width: 991px) {
-	.form-wrapper {
+	.timer-wrapper {
 		margin: 0;
 	}
 
@@ -221,11 +225,11 @@ form div {
 	form {
 		font-size: 1.25em;
 	}
-
-	form button {
-
-	}
 }
+
+/* Timer */
+
+
 
 /* Sidebar */
 

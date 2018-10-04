@@ -8,8 +8,9 @@
 	<meta name="description" content="A simple meditation timer">
 	<!-- basic favicon -->
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="css/stylesheet.css" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/stylesheet.css" type="text/css">
 </head>
 
 <body>
@@ -27,14 +28,21 @@
 			<p>There are many types of meditation you can practice. One popular form is called mindfulness meditation. For more information on mindfulness and how to practice, check out this article on <a href="https://www.mindful.org/meditation/mindfulness-getting-started/" target="_blank">getting started with mindfulness</a>.
 		</aside>
 		<main>
-			<div class="form-wrapper">
+			<div class="timer-wrapper">
 				<h2>Set meditation timer</h2>
-				<form novalidate>
+				<form>
 					<div>Please enter a number in at least one field below</div>
-					<input id="hrs" type="text" pattern="\d*" maxlength="2" size="2"><label for="hrs">hrs</label>
-					<input id="mins" type="text" pattern="\d*" maxlength="2" size="2"><label for="mins">mins</label>
+					<input id="hrs-input" type="text" pattern="\d*" maxlength="2" size="2"><label for="hrs-input">hrs</label>
+					<input id="mins-input" type="text" pattern="\d*" maxlength="2" size="2"><label for="mins-input">mins</label>
 					<button>Start</button>
 				</form>
+				<div class="timer hide">
+					<div class="screen">
+						<span class="hours-remaining">00</span><span class="timer-colon">:</span><span class="mins-remaining">00</span><span class="timer-colon">:</span><span class="seconds-remaining">00</span>
+					</div>
+					<button>End Early?</button>
+					<i class="fas fa-pause"></i>
+				</div>
 			</div>
 		</main>
 	</div>

@@ -18,14 +18,14 @@ $(document).ready(function(){
 	// Form submission logic (validation and starting timer)
 	$('form button').on('click', function(e){
 		e.preventDefault();
-		hours = Number($hrsEl.val());
-		minutes = Number($minsEl.val());
+		var hours = Number($hrsEl.val());
+		var minutes = Number($minsEl.val());
 		console.log($hrsEl.val());
 		console.log(hours);
 		console.log(minutes);
 		$('form div').removeClass('show'); // Hide error message in case it was shown for a previous submission
 		if(hours === 0 && minutes === 0) {
-			$('form div').text('*Enter a number in at least one field below');
+			$('form div').text('*Enter a number in at least one field');
 			$('form div').addClass('show'); // Show error msg if both inputs empty
 		} else if ( Number.isNaN(hours) || Number.isNaN(minutes) ) {
 			$('form div').text('*Only numbers accepted');
@@ -37,7 +37,9 @@ $(document).ready(function(){
 			$('form div').text('*Enter a number for mins between 0 and 59');
 			$('form div').addClass('show'); // Show error msg if mins <0 or >59
 		} else {
-			console.log('success');
+			$('.timer-wrapper h2').addClass('hide');
+			$('.timer-wrapper form').addClass('hide');
+			$('.timer').removeClass('hide');
 		}
 	});
 });
