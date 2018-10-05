@@ -223,13 +223,13 @@ form div {
 
 /* Temp */
 
-.timer {
+/*.timer {
 	display: block !important;
 }
 
 .timer-wrapper h2, .timer-wrapper form{
 	display: none !important; 
-}
+}*/
 
 .screen {
 	font-size: 5em;
