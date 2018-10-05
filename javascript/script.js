@@ -1,8 +1,11 @@
 $(document).ready(function(){
 
-	// Hr and Minute Inputs
-	var $hrsEl = $('input[type="text"]:first-of-type');
-	var $minsEl = $('input[type="text"]:last-of-type');
+	// Hr and Minute Inputs and Timer Displays
+	var $hrsInput = $('input[type="text"]:first-of-type');
+	var $minsInput = $('input[type="text"]:last-of-type');
+	var $hrsDisplay = $('.hours-remaining');
+	var $minsDisplay = $('.mins-remaining');
+	var hours, minutes; // Values submitted by form
 
 	// Open sidebar
 	$('nav a').on('click', function(e){
@@ -18,13 +21,13 @@ $(document).ready(function(){
 	// Form submission logic (validation and starting timer)
 	$('form button').on('click', function(e){
 		e.preventDefault();
-		var hours = Number($hrsEl.val());
-		var minutes = Number($minsEl.val());
-		console.log($hrsEl.val());
+		hours = Number($hrsInput.val());
+		minutes = Number($minsInput.val());
+		console.log($hrsInput.val());
 		console.log(hours);
 		console.log(minutes);
 		$('form div').removeClass('show'); // Hide error message in case it was shown for a previous submission
-		if(hours === 0 && minutes === 0) {
+		if (hours === 0 && minutes === 0) {
 			$('form div').text('*Enter a number in at least one field');
 			$('form div').addClass('show'); // Show error msg if both inputs empty
 		} else if ( Number.isNaN(hours) || Number.isNaN(minutes) ) {
@@ -40,6 +43,13 @@ $(document).ready(function(){
 			$('.timer-wrapper h2').addClass('hide');
 			$('.timer-wrapper form').addClass('hide');
 			$('.timer').removeClass('hide');
+
 		}
 	});
+
+	function startTimer(hours, minutes){
+		if (hours === 0) {
+
+		}
+	}
 });
