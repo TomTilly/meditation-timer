@@ -12,7 +12,8 @@ $(document).ready(function(){
 	var totalTimeInSeconds; // Total time to be stored in seconds
 	var hours, minutes; // Hours (0-24) and minutes (0-59) value for timer
 	var seconds = 0; // Seconds value for timer (0-59), always starts at 0
-	var originalHours, originalMinutes; // Values originally set by timer
+	var startingHours, startingMinutes; // Values originally set by timer
+	var prevHours, prevMinutes; // Used for checking whether the minutes and hours has changed and needs to be updated on screen
 
 	// Open sidebar
 	$('nav a').on('click', function(e){
@@ -50,26 +51,17 @@ $(document).ready(function(){
 			$('.timer-wrapper h2').addClass('hide');
 			$('.timer-wrapper form').addClass('hide');
 			$('.timer').removeClass('hide');
-			originalHours = hours;
-			originalMinutes = minutes;
+			startingHours = hours;
+			startingMinutes = minutes;
 			startTimer();
 		}
 	});
 
 	function startTimer(){
 		console.log('startTimer called');
-		if (hours === 0) {
-			$hrsDisplay.text('');
-			$hrsColon.text('');
-		} else {
-			$hrsDisplay.text(hours.toString());
-		}
-		if (minutes === 0) {
-			$minsDisplay.text('00');
-		} else {
-			$minsDisplay.text(minutes.toString());
-		}
 		
+		printTime(); // Display initial time
+
 		totalTimeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
 
 		var intervalID = setInterval(function(){
@@ -77,8 +69,8 @@ $(document).ready(function(){
 				clearInterval(intervalID);
 				console.log('timer stopped');
 			} else {
-				totalTimeInSeconds--;
 				updateTimer();
+
 			}
 		},1000);
 	}
@@ -86,12 +78,48 @@ $(document).ready(function(){
 	function updateTimer(){
 		console.log('updateTimer called');
 
+		prevHours = hours;
+		prevMinutes = minutes;
+
+		totalTimeInSeconds--;
+
 		hours = Math.floor(totalTimeInSeconds/3600);
 		minutes = totalTimeInSeconds > 3600 ? Math.floor( (totalTimeInSeconds - (hours * 3600))/60) : Math.floor(totalTimeInSeconds/60);
 		seconds = totalTimeInSeconds % 60;
 
-		$hrsDisplay.text(hours.toString());
-		$minsDisplay.text(minutes.toString());
-		$secondsDisplay.text(seconds.toString());
+		printTime();
+	}
+
+	function printTime(){
+		console.log('seconds changed');
+
+		// Update seconds
+		if (seconds >= 10) {
+			$secondsDisplay.text(seconds.toString());
+		} else {
+			$secondsDisplay.text('0' + seconds.toString());
+		}
+
+		// Update minutes
+		if (minutes !== prevMinutes) { // Only update if minutes has changed or is being set for first time
+			console.log('minutes changed');
+			if (minutes < 10 && hours > 0){
+				$minsDisplay.text('0' + minutes.toString());
+			} else {
+				$minsDisplay.text(minutes.toString());
+			}
+		}
+		
+		// Update hours
+		if (hours !== prevHours) { // Only update if hours has changed or is being set for first time
+			console.log('hours changed');
+			if (hours === 0){
+				$hrsDisplay.text('');
+				$hrsColon.text('');
+			} else {
+				$hrsDisplay.text(hours.toString());
+			}
+		}
+
 	}
 });
