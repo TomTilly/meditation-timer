@@ -1,14 +1,18 @@
 $(document).ready(function(){
 
 	// Hr and Minute Inputs and Timer Displays
-	var $hrsInput = $('input[type="text"]:first-of-type');
-	var $minsInput = $('input[type="text"]:last-of-type');
-	var $hrsDisplay = $('.hours-remaining');
-	var $minsDisplay = $('.mins-remaining');
-	var $secondsDisplay = $('.seconds-remaining');
-	var $hrsColon = $('.hours-remaining + span');
-	var hours, minutes; // Values submitted by form
-	var seconds = 0;
+	var $hrsInput = $('input[type="text"]:first-of-type'); // Hrs Input Element (abbreviated as El)
+	var $minsInput = $('input[type="text"]:last-of-type'); // Mins Input El
+	var $hrsDisplay = $('.hours-remaining'); // Hrs Display El
+	var $minsDisplay = $('.mins-remaining'); // Mins Display El
+	var $secondsDisplay = $('.seconds-remaining'); // Seconds Display El
+	var $hrsColon = $('.hours-remaining + span'); // Colon after hrs display value in timer
+
+	// For use in timer logic
+	var totalTimeInSeconds; // Total time to be stored in seconds
+	var hours, minutes; // Hours (0-24) and minutes (0-59) value for timer
+	var seconds = 0; // Seconds value for timer (0-59), always starts at 0
+	var originalHours, originalMinutes; // Values originally set by timer
 
 	// Open sidebar
 	$('nav a').on('click', function(e){
@@ -21,7 +25,7 @@ $(document).ready(function(){
 		$('.content-wrapper').toggleClass('toggle-on');
 	});
 
-	// Form submission logic (validation and starting timer)
+	// Form submission validation - Start timer if successful
 	$('form button').on('click', function(e){
 		e.preventDefault();
 		hours = Number($hrsInput.val());
@@ -46,6 +50,8 @@ $(document).ready(function(){
 			$('.timer-wrapper h2').addClass('hide');
 			$('.timer-wrapper form').addClass('hide');
 			$('.timer').removeClass('hide');
+			originalHours = hours;
+			originalMinutes = minutes;
 			startTimer();
 		}
 	});
@@ -63,57 +69,29 @@ $(document).ready(function(){
 		} else {
 			$minsDisplay.text(minutes.toString());
 		}
-		$secondsDisplay.text('00');
 		
+		totalTimeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
 		var intervalID = setInterval(function(){
-			// hours = Number($hrsDisplay.text());
-			// minutes = Number(minsDisplay.text());
-			// seconds = Number(secondsDisplay.text());
-			if (hours === 0 && minutes === 0 && seconds === 0){
+			if (totalTimeInSeconds === 0){
 				clearInterval(intervalID);
 				console.log('timer stopped');
 			} else {
-				decrementTimer();
+				totalTimeInSeconds--;
+				updateTimer();
 			}
 		},1000);
 	}
 
-	function decrementTimer(){
-		console.log('decrementTimer called');
-		if (seconds === 0 ){
-			if(minutes === 0){
-				if (hours > 1){
-					hours--;
-					$hrsDisplay.text(hours.toString());
-					minutes = 59;
-					$minsDisplay.text(minutes.toString());
-					seconds = 59;
-					$secondsDisplay.text(seconds.toString());
-				} else if (hours === 1){
-					hours--;
-					$hrsDisplay.text('');
-					$hrsColon.text('');
-					minutes = 59;
-					$minsDisplay.text(minutes.toString());
-					seconds = 59;
-					$secondsDisplay.text(seconds.toString());
-				} else  {
-					minutes = 0;
-					$minsDisplay.text(minutes.toString());
-				}
-			} else {
-				minutes--;
-				$minsDisplay.text(minutes.toString());
-				seconds = 59;
-				$secondsDisplay.text(seconds.toString());
-			}
-		} else {
-			seconds--;
-			if (seconds < 10){
-				$secondsDisplay.text('0' + seconds.toString());
-			} else {
-				$secondsDisplay.text(seconds.toString());	
-			}
-		}
+	function updateTimer(){
+		console.log('updateTimer called');
+
+		hours = Math.floor(totalTimeInSeconds/3600);
+		minutes = totalTimeInSeconds > 3600 ? Math.floor( (totalTimeInSeconds - (hours * 3600))/60) : Math.floor(totalTimeInSeconds/60);
+		seconds = totalTimeInSeconds % 60;
+
+		$hrsDisplay.text(hours.toString());
+		$minsDisplay.text(minutes.toString());
+		$secondsDisplay.text(seconds.toString());
 	}
 });
