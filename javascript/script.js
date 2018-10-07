@@ -60,7 +60,11 @@ $(document).ready(function(){
 		} else if (minutes < 0 || minutes > 59) {
 			$validationEl.text('*Enter a number for mins between 0 and 59');
 			$validationEl.addClass('show'); // Show error msg if mins <0 or >59
+		} else if ( !Number.isInteger(hours) || !Number.isInteger(minutes)) {
+			$validationEl.text('*Decimal values not allowed');
+			$validationEl.addClass('show'); // Show error msg if user entered decimal values
 		} else {
+			// Validation passed
 			$('.timer-wrapper h2').addClass('hide');
 			$('.timer-wrapper form').addClass('hide');
 			$('.timer').removeClass('hide');
