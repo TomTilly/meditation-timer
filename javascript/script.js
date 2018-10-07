@@ -17,6 +17,7 @@ $(document).ready(function(){
 	var seconds = 0; // Seconds value for timer (0-59), always starts at 0
 	var startingHours, startingMinutes; // Values originally set by timer
 	var prevHours, prevMinutes; // Used for checking whether the minutes and hours has changed and needs to be updated on screen
+	var intervalID;
 
 	// Timer buttons and messages
 	var $endEarlyBtn = $('.end-early-btn');
@@ -60,9 +61,9 @@ $(document).ready(function(){
 		} else if (minutes < 0 || minutes > 59) {
 			$validationEl.text('*Enter a number for mins between 0 and 59');
 			$validationEl.addClass('show'); // Show error msg if mins <0 or >59
-		} else if ( !Number.isInteger(hours) || !Number.isInteger(minutes)) {
-			$validationEl.text('*Decimal values not allowed');
-			$validationEl.addClass('show'); // Show error msg if user entered decimal values
+		// } else if ( !Number.isInteger(hours) || !Number.isInteger(minutes)) {
+		// 	$validationEl.text('*Decimal values not allowed');
+		// 	$validationEl.addClass('show'); // Show error msg if user entered decimal values
 		} else {
 			// Validation passed
 			$('.timer-wrapper h2').addClass('hide');
@@ -81,24 +82,8 @@ $(document).ready(function(){
 
 		totalTimeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
 
-		var intervalID = setInterval(function(){
-			if (totalTimeInSeconds === 0){
-				clearInterval(intervalID);
-				console.log('timer stopped');
-				$endEarlyBtn.addClass('hide');
-				$pauseButton.addClass('hide');
-				if (startingHours && startingMinutes) {
-					$postMeditationMsg.text('You meditated for ' + startingHours + ' hours and ' + startingMinutes + ' minutes.');
-				} else if (startingHours > 0 && startingMinutes === 0) {
-					$postMeditationMsg.text('You meditated for ' + startingHours + ' hours.');
-				} else if (startingHours === 0 && startingMinutes > 0) {
-					$postMeditationMsg.text('You meditated for ' + startingMinutes + ' minutes.');
-				}
-				$newSessionBtn.removeClass('hide');
-				$('.screen').after($postMeditationMsg);
-			} else {
+		intervalID = setInterval(function(){
 				updateTimer();
-			}
 		},1000);
 	}
 
@@ -115,6 +100,22 @@ $(document).ready(function(){
 		seconds = totalTimeInSeconds % 60;
 
 		printTime();
+
+		if (totalTimeInSeconds < 1){ // Change to === 0 when getting rid of debug-end-timer
+			clearInterval(intervalID);
+			console.log('timer stopped');
+			$endEarlyBtn.addClass('hide');
+			$pauseButton.addClass('hide');
+			if (startingHours && startingMinutes) {
+				$postMeditationMsg.text('You meditated for ' + startingHours + ' hours and ' + startingMinutes + ' minutes.');
+			} else if (startingHours > 0 && startingMinutes === 0) {
+				$postMeditationMsg.text('You meditated for ' + startingHours + ' hours.');
+			} else if (startingHours === 0 && startingMinutes > 0) {
+				$postMeditationMsg.text('You meditated for ' + startingMinutes + ' minutes.');
+			}
+			$newSessionBtn.removeClass('hide');
+			$('.screen').after($postMeditationMsg);
+		}
 	}
 
 	function printTime(){
@@ -149,4 +150,9 @@ $(document).ready(function(){
 		}
 	}
 
+	
+	$('.debug-end-timer').on('click', function(e){
+		e.preventDefault();
+		totalTimeInSeconds = 0;
+	});
 });

@@ -387,3 +387,12 @@ aside a:hover {
 .hide {
 	display: none;
 }
+
+/* Debug */
+
+.debug-end-timer {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	background: blue;
+}
