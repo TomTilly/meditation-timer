@@ -278,6 +278,23 @@ form div {
 	font-size: 4.2rem;
 }
 
+@media (max-width: 575px) {
+	.screen {
+		font-size: 4em;
+	}
+
+	.pause-btn, .play-btn {
+		/*margin: 0 auto 2rem;*/
+		height: 3.2rem; /* Height needs to be equal to font-size when it expands so that it doesn't push other elements up */
+		font-size: 3rem;
+	}
+
+	.pause-btn:hover, .play-btn:hover {
+		font-size: 3.2rem;
+	}
+
+}
+
 
 /* Sidebar */
 

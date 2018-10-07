@@ -109,7 +109,7 @@ $(document).ready(function(){
 				$minsDisplay.text(minutes.toString());
 			}
 		}
-		
+
 		// Update hours
 		if (hours !== prevHours) { // Only update if hours has changed or is being set for first time
 			console.log('hours changed');
