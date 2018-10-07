@@ -1,8 +1,10 @@
 $(document).ready(function(){
 
-	// Hr and Minute Inputs and Timer Displays
+	// Hr and Minute Inputs
 	var $hrsInput = $('input[type="text"]:first-of-type'); // Hrs Input Element (abbreviated as El)
 	var $minsInput = $('input[type="text"]:last-of-type'); // Mins Input El
+	
+	// Timer Display Elements
 	var $hrsDisplay = $('.hours-remaining'); // Hrs Display El
 	var $minsDisplay = $('.mins-remaining'); // Mins Display El
 	var $secondsDisplay = $('.seconds-remaining'); // Seconds Display El
@@ -14,6 +16,13 @@ $(document).ready(function(){
 	var seconds = 0; // Seconds value for timer (0-59), always starts at 0
 	var startingHours, startingMinutes; // Values originally set by timer
 	var prevHours, prevMinutes; // Used for checking whether the minutes and hours has changed and needs to be updated on screen
+
+	// Timer buttons and messages
+	var $endEarlyBtn = $('.end-early-btn');
+	var $newSessionBtn = $('.new-session-btn');
+	var $postMeditationMsg = $('<p class="post-meditation-msg"></p>');
+	var $playButton = $('.play-btn');
+	var $pauseButton = $('.pause-btn');
 
 	// Open sidebar
 	$('nav a').on('click', function(e){
@@ -68,9 +77,19 @@ $(document).ready(function(){
 			if (totalTimeInSeconds === 0){
 				clearInterval(intervalID);
 				console.log('timer stopped');
+				$endEarlyBtn.addClass('hide');
+				$pauseButton.addClass('hide');
+				if (startingHours && startingMinutes) {
+					$postMeditationMsg.text('You meditated for ' + startingHours + ' hours and ' + startingMinutes + ' minutes.');
+				} else if (startingHours > 0 && startingMinutes === 0) {
+					$postMeditationMsg.text('You meditated for ' + startingHours + ' hours.');
+				} else if (startingHours === 0 && startingMinutes > 0) {
+					$postMeditationMsg.text('You meditated for ' + startingMinutes + ' minutes.');
+				}
+				$newSessionBtn.removeClass('hide');
+				$('.screen').after($postMeditationMsg);
 			} else {
 				updateTimer();
-
 			}
 		},1000);
 	}
@@ -120,6 +139,6 @@ $(document).ready(function(){
 				$hrsDisplay.text(hours.toString());
 			}
 		}
-
 	}
+
 });

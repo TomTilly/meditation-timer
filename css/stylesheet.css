@@ -234,6 +234,7 @@ form div {
 .screen {
 	font-size: 5em;
 	color: rgba(255,255,255,0.7);
+	text-align: center;
 }
 
 .timer-colon {
@@ -248,18 +249,18 @@ form div {
 	outline: none;
 }
 
-.end-early-msg {
+.end-early-btn, .new-session-btn {
 	display: block;
 	margin: 0 auto;
+	font-size: 1.2em;
 	padding: .6em .8em;
 	background: rgba(0,0,0,0.3);
 	color: rgba(255,255,255,0.7);
 	border-radius: 1em;
 	transition: background .3s linear;
-	/*visibility: hidden;*/
 }
 
-.end-early-msg:hover {
+.end-early-btn:hover, .new-session-btn:hover {
 	background:rgba(0,0,0,0.4);
 }
 
@@ -278,14 +279,19 @@ form div {
 	font-size: 4.2rem;
 }
 
+.post-meditation-msg {
+	color: rgba(255,255,255,.7);
+	font-size: 1.2em;
+	margin-top: 0;
+}
+
 @media (max-width: 575px) {
 	.screen {
 		font-size: 4em;
 	}
 
 	.pause-btn, .play-btn {
-		/*margin: 0 auto 2rem;*/
-		height: 3.2rem; /* Height needs to be equal to font-size when it expands so that it doesn't push other elements up */
+		height: 3.2rem;
 		font-size: 3rem;
 	}
 
