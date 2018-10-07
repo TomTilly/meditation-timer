@@ -150,7 +150,22 @@ $(document).ready(function(){
 		}
 	}
 
-	
+	$pauseButton.on('click',function(e) {
+		e.preventDefault;
+		clearInterval(intervalID);
+		$(this).toggleClass('hide');
+		$playButton.toggleClass('hide');
+	});
+
+	$playButton.on('click',function(e) {
+		e.preventDefault;
+		intervalID = setInterval(function() {
+			updateTimer();
+		},1000);
+		$(this).toggleClass('hide');
+		$pauseButton.toggleClass('hide');
+	});
+
 	$('.debug-end-timer').on('click', function(e){
 		e.preventDefault();
 		totalTimeInSeconds = 0;
