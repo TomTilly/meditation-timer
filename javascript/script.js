@@ -1,8 +1,9 @@
 $(document).ready(function(){
 
-	// Hr and Minute Inputs
+	// Form Inputs and messages
 	var $hrsInput = $('input[type="text"]:first-of-type'); // Hrs Input Element (abbreviated as El)
 	var $minsInput = $('input[type="text"]:last-of-type'); // Mins Input El
+	var $validationEl = $('form div');
 	
 	// Timer Display Elements
 	var $hrsDisplay = $('.hours-remaining'); // Hrs Display El
@@ -43,19 +44,22 @@ $(document).ready(function(){
 		console.log($hrsInput.val());
 		console.log(hours);
 		console.log(minutes);
-		$('form div').removeClass('show'); // Hide error message in case it was shown for a previous submission
-		if (hours === 0 && minutes === 0) {
-			$('form div').text('*Enter a number in at least one field');
-			$('form div').addClass('show'); // Show error msg if both inputs empty
+		$validationEl.removeClass('show'); // Hide error message in case it was shown for a previous submission
+		if ($hrsInput.val() === '' && $minsInput.val() === '') {
+			$validationEl.text('*Fields cannot be blank');
+			$validationEl.addClass('show'); // Show error msg if both inputs empty
+		} else if (hours === 0 && minutes === 0) {
+			$validationEl.text('*Enter a positive number in at least one field below');
+			$validationEl.addClass('show'); // Show error msg if both inputs are 0
 		} else if ( Number.isNaN(hours) || Number.isNaN(minutes) ) {
-			$('form div').text('*Only numbers accepted');
-			$('form div').addClass('show'); // Show error msg if non-numeric characters entered
+			$validationEl.text('*Only numbers accepted');
+			$validationEl.addClass('show'); // Show error msg if non-numeric characters entered
 		} else if (hours < 0 || hours > 24) {
-			$('form div').text('*Enter a number for hrs between 0 and 24');
-			$('form div').addClass('show'); // Show error msg if hours <0 or >24
+			$validationEl.text('*Enter a number for hrs between 0 and 24');
+			$validationEl.addClass('show'); // Show error msg if hours <0 or >24
 		} else if (minutes < 0 || minutes > 59) {
-			$('form div').text('*Enter a number for mins between 0 and 59');
-			$('form div').addClass('show'); // Show error msg if mins <0 or >59
+			$validationEl.text('*Enter a number for mins between 0 and 59');
+			$validationEl.addClass('show'); // Show error msg if mins <0 or >59
 		} else {
 			$('.timer-wrapper h2').addClass('hide');
 			$('.timer-wrapper form').addClass('hide');
