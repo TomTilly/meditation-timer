@@ -29,9 +29,10 @@ $(document).ready(function(){
 	var intervalID;					// ID used to cancel setInterval
 
 
-// =======================================================
+
+// ====================================
 // Events
-// =======================================================
+// ====================================
 
 	// Open sidebar
 	$('nav a').on('click', function(e){
@@ -48,12 +49,20 @@ $(document).ready(function(){
 
 	// Form submission validation - Start timer if successful
 	$('form button').on('click', function(e){
+		// DEBUGGING
+		console.log('pre-initial hours: ' + hours);
+		console.log('pre-initial minutes: ' + minutes);
+
 		e.preventDefault();
 		hours = Number($hrsInput.val());	// Converts string into number (0 if '', NaN if non-numerical characters used)
 		minutes = Number($minsInput.val());
 		seconds = 0;						// Seconds always starts at 0
 
-		// For debugging
+		// Set to null in case they've been set in previous iteration of timer
+		prevMinutes = null;
+		prevHours = null;
+
+		// DEBUGGING
 		console.log($hrsInput.val());
 		console.log(hours);
 		console.log(minutes);
@@ -71,13 +80,18 @@ $(document).ready(function(){
 			showValidationMsg('*Enter a number for hrs between 0 and 24');
 		} else if (minutes < 0 || minutes > 59) {
 			showValidationMsg('*Enter a number for mins between 0 and 59');
-		// Temporarily hide last check for debugging
+		// DEBUGGING (temporarily hide until debugging ends)
 		// } else if ( !Number.isInteger(hours) || !Number.isInteger(minutes)) {
 			// showValidationMsg('*Decimal values not allowed');
 		} else {	// Validation passed
 			$hrsColon.text(':');			// Add colon in case it was removed in previous timer use
 			
 			$timerForm.addClass('hide');
+
+			// Post meditation message from last time timer was run should be hidden
+			if(!$postMeditationMsg.hasClass('hide')) {
+				$postMeditationMsg.addClass('hide');
+			}
 			
 			// Show timer
 			$endEarlyBtn.removeClass('hide');
@@ -123,9 +137,10 @@ $(document).ready(function(){
 	});
 
 
-// =======================================================
+
+// ====================================
 // Timer logic and display functions
-// =======================================================
+// ====================================
 
 	// startTimer
 	// - Calls updateTimerLogic every second
@@ -199,10 +214,6 @@ $(document).ready(function(){
 		}
 		$newSessionBtn.removeClass('hide');
 		printEndMessage();
-
-		hours = null;
-		minutes = null;
-		seconds = null;
 	}
 
 
@@ -222,6 +233,7 @@ $(document).ready(function(){
 
 	// Prints a message telling user how long they meditated for
 	function printEndMessage() {
+		$postMeditationMsg.text(''); // Reset print message in case it's been shown before
 		var totalSecondsMeditated = startingTimeInSeconds - remainingTimeInSeconds;
 		console.log('totaltime: ' + totalSecondsMeditated);
 		var hoursMeditated = getHours(totalSecondsMeditated);
@@ -237,6 +249,7 @@ $(document).ready(function(){
 			$postMeditationMsg.text('You meditated for ' + minutesMeditated + ' ' + getSingularOrPlural('minute', minutesMeditated) + '.');
 		}
 		$('.screen').after($postMeditationMsg);
+		$postMeditationMsg.removeClass('hide');
 	}
 
 	function getSingularOrPlural(text, number) {
@@ -248,8 +261,10 @@ $(document).ready(function(){
 	}
 
 	function showValidationMsg(msg) {
+		// DEBUGGING
+		console.log('hello');
 		$validationMsg.text(msg);
-		$validationMsg.removeClass('hide'); 									
+		$validationMsg.removeClass('hide');								
 	}
 
 });

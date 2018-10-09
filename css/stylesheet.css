@@ -181,7 +181,6 @@ fieldset button:focus {
 }
 
 fieldset div {
-	display: none;
 	font-size: 1rem;
 	margin: 0;
 	padding-bottom: .5em;
