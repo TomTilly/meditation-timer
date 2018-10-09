@@ -19,7 +19,7 @@
 			<a href="#">About</a>
 		</nav>
 	</header>
-	<div class="content-wrapper">
+	<div class="wrapper">
 		<aside>
 		<button aria-label="Close About Sidebar">&times;</button>
 			<h1>Basic Meditation Timer</h1>
@@ -28,13 +28,15 @@
 			<p>There are many types of meditation you can practice. One popular form is called mindfulness meditation. For more information on mindfulness and how to practice, check out this article on <a href="https://www.mindful.org/meditation/mindfulness-getting-started/" target="_blank">getting started with mindfulness</a>.
 		</aside>
 		<main>
-			<div class="timer-wrapper">
-				<h2>Set meditation timer</h2>
+			<div class="main-content-wrapper">
 				<form>
-					<div>Please enter a number in at least one field below</div>
-					<input id="hrs-input" type="text" pattern="\d*" maxlength="2" size="2"><label for="hrs-input">hrs</label>
-					<input id="mins-input" type="text" pattern="\d*" maxlength="2" size="2"><label for="mins-input">mins</label>
-					<button>Start</button>
+					<h2>Set meditation timer</h2>
+					<fieldset>
+						<div></div>
+						<input id="hrs-input" type="text" pattern="\d*" maxlength="2" size="2"><label for="hrs-input">hrs</label>
+						<input id="mins-input" type="text" pattern="\d*" maxlength="2" size="2"><label for="mins-input">mins</label>
+						<button>Start</button>
+					</fieldset>
 				</form>
 				<div class="timer hide">
 					<div class="screen">

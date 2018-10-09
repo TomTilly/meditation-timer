@@ -1,114 +1,161 @@
 $(document).ready(function(){
 
-
 	// Form Inputs and messages
-	var $hrsInput = $('input[type="text"]:first-of-type'); 				// Hrs Input
-	var $minsInput = $('input[type="text"]:last-of-type'); 				// Mins Input
-	var $validationEl = $('form div');									// Validation error message
+	var $hrsInput = $('input[type="text"]:first-of-type');
+	var $minsInput = $('input[type="text"]:last-of-type');
+	var $validationMsg = $('fieldset div');
 	
 	// Timer Display Elements
-	var $hrsDisplay = $('.hours-remaining'); 							// Hrs span
-	var $minsDisplay = $('.mins-remaining'); 							// Mins span
-	var $secondsDisplay = $('.seconds-remaining'); 						// Seconds span
-	var $hrsColon = $('.hours-remaining + span'); 						// Colon after Hrs span
+	var $hrsDisplay = $('.hours-remaining');
+	var $minsDisplay = $('.mins-remaining');
+	var $secondsDisplay = $('.seconds-remaining');
+	var $hrsColon = $('.hours-remaining + span');	// Colon after Hrs span
 
 	// Timer buttons and messages
 	var $endEarlyBtn = $('.end-early-btn');
 	var $newSessionBtn = $('.new-session-btn');
 	var $postMeditationMsg = $('<p class="post-meditation-msg"></p>');
-	var $playButton = $('.play-btn');
-	var $pauseButton = $('.pause-btn');
+	var $playBtn = $('.play-btn');
+	var $pauseBtn = $('.pause-btn');
+	var $timerContainer = $('.timer');
+	var $timerForm = $('form');
 
 	// For use in timer logic
-	var totalTimeInSeconds; 											// Total time to be stored in seconds
-	var hours, minutes; 												// Hours (0-24) and minutes (0-59) value for timer
-	var seconds = 0; 													// Seconds value for timer (0-59), always starts at 0
-	var startingTimeInSeconds;											// Values originally set by timer in seconds
-	var prevHours, prevMinutes; 										// Used for checking whether the minutes and hours has changed and needs to be updated on screen
-	var intervalID;
+	var remainingTimeInSeconds;
+	var hours, minutes;
+	var seconds;
+	var startingTimeInSeconds;
+	var prevHours, prevMinutes;		// Stores previous hours/minutes to check whether they've changed
+	var intervalID;					// ID used to cancel setInterval
 
+
+// =======================================================
+// Events
+// =======================================================
 
 	// Open sidebar
 	$('nav a').on('click', function(e){
 		e.preventDefault();
-		$('.content-wrapper').toggleClass('toggle-on');
+		$('.wrapper').toggleClass('toggle-on');
 	});
 
 	// Close sidebar
 	$('aside button').on('click', function(e){
 		e.preventDefault();
-		$('.content-wrapper').toggleClass('toggle-on');
+		$('.wrapper').toggleClass('toggle-on');
 	});
 
 
 	// Form submission validation - Start timer if successful
 	$('form button').on('click', function(e){
 		e.preventDefault();
-		hours = Number($hrsInput.val());									// Get hours as a number
-		minutes = Number($minsInput.val());									// Get minutes as a number
+		hours = Number($hrsInput.val());	// Converts string into number (0 if '', NaN if non-numerical characters used)
+		minutes = Number($minsInput.val());
+		seconds = 0;						// Seconds always starts at 0
+
+		// For debugging
 		console.log($hrsInput.val());
 		console.log(hours);
 		console.log(minutes);
-		$validationEl.removeClass('show'); 									// Hide error message in case it was shown for a previous submission
-		if ($hrsInput.val() === '' && $minsInput.val() === '') {			// Show error msg if both inputs empty strings
-			$validationEl.text('*Fields cannot be blank');
-			$validationEl.addClass('show'); 									
-		} else if (hours === 0 && minutes === 0) {							// Show error msg if both inputs are 0
-			$validationEl.text('*Enter a positive number in at least one field below');
-			$validationEl.addClass('show');
-		} else if ( Number.isNaN(hours) || Number.isNaN(minutes) ) {		// Show error msg if non-numeric characters entered
-			$validationEl.text('*Only numbers accepted');
-			$validationEl.addClass('show');
-		} else if (hours < 0 || hours > 24) {								// Show error msg if hours <0 or >24
-			$validationEl.text('*Enter a number for hrs between 0 and 24');
-			$validationEl.addClass('show');
-		} else if (minutes < 0 || minutes > 59) {							// Show error msg if mins <0 or >59
-			$validationEl.text('*Enter a number for mins between 0 and 59');
-			$validationEl.addClass('show');
+
+		$validationMsg.addClass('hide'); 	// Hide error message in case it was previously shown
+
+		// Validation checks
+		if ($hrsInput.val() === '' && $minsInput.val() === '') {
+			showValidationMsg('*Field cannot be blank');
+		} else if (hours === 0 && minutes === 0) {
+			showValidationMsg('*Enter a positive number in at least one field below');
+		} else if ( Number.isNaN(hours) || Number.isNaN(minutes) ) {	// If non-numeric characters were entered
+			showValidationMsg('*Only numbers accepted');
+		} else if (hours < 0 || hours > 24) {
+			showValidationMsg('*Enter a number for hrs between 0 and 24');
+		} else if (minutes < 0 || minutes > 59) {
+			showValidationMsg('*Enter a number for mins between 0 and 59');
+		// Temporarily hide last check for debugging
 		// } else if ( !Number.isInteger(hours) || !Number.isInteger(minutes)) {
-		// 	$validationEl.text('*Decimal values not allowed');
-		// 	$validationEl.addClass('show'); // Show error msg if user entered decimal values
-		} else {															// Validation passed
-			// Hide form elements and call start timer
-			$('.timer-wrapper h2').addClass('hide');
-			$('.timer-wrapper form').addClass('hide');
-			$('.timer').removeClass('hide');
-			updateTimerDisplay();
-			startingTimeInSeconds, totalTimeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
+			// showValidationMsg('*Decimal values not allowed');
+		} else {	// Validation passed
+			$hrsColon.text(':');			// Add colon in case it was removed in previous timer use
+			
+			$timerForm.addClass('hide');
+			
+			// Show timer
+			$endEarlyBtn.removeClass('hide');
+			$pauseBtn.removeClass('hide');
+			$timerContainer.removeClass('hide');
+			
+			updateTimerDisplay();			// Display initial time to user
+			startingTimeInSeconds = remainingTimeInSeconds = (hours * 3600) + (minutes * 60);
 			startTimer();
 		}
 	});
 
+	// Remove pause button on click and replace with play button
+	$pauseBtn.on('click',function() {
+		clearInterval(intervalID);
+		$(this).toggleClass('hide');
+		$playBtn.toggleClass('hide');
+	});
 
-	// Starts timer with setInterval
+	// Remove play button on click and replace with pause button
+	$playBtn.on('click',function() {
+		startTimer();
+		$(this).toggleClass('hide');
+		$pauseBtn.toggleClass('hide');
+	});
+
+	// End timer when End Session Early button clicked
+	$endEarlyBtn.on('click', function() {
+		endTimer();
+	});
+
+	// Start New Session button clicked: reset form values, remove timer, show timer form
+	$newSessionBtn.on('click', function() {
+		$hrsInput.val('');
+		$minsInput.val('');
+		$timerForm.removeClass('hide');
+		$newSessionBtn.addClass('hide');
+		$timerContainer.addClass('hide');
+	});
+
+	$('.debug-end-timer').on('click', function(e){
+		remainingTimeInSeconds = 5;
+	});
+
+
+// =======================================================
+// Timer logic and display functions
+// =======================================================
+
+	// startTimer
+	// - Calls updateTimerLogic every second
+	// - Sets intervalID for use in clearing setInterval later
 	function startTimer(){
 		console.log('startTimer called');
-		intervalID = setInterval(function(){
-			updateTimerLogic();
-		},1000);
+		intervalID = setInterval(updateTimerLogic, 1000);
 	}
-
 
 	function updateTimerLogic(){
 		console.log('updateTimer called');
 		
-		totalTimeInSeconds--;
+		remainingTimeInSeconds--;
 
 		prevHours = hours;
 		prevMinutes = minutes;
 
-		// Update times
-		hours = Math.floor(totalTimeInSeconds/3600);
-		minutes = totalTimeInSeconds > 3600 ? Math.floor( (totalTimeInSeconds - (hours * 3600))/60) : Math.floor(totalTimeInSeconds/60);
-		seconds = totalTimeInSeconds % 60;
+		// Derive hours/minutes/seconds value for display from total seconds
+		hours = getHours(remainingTimeInSeconds);
+		minutes = getMinutes(hours, remainingTimeInSeconds);
+		seconds = getSeconds(remainingTimeInSeconds);
 
 		updateTimerDisplay();
 		
-		if (totalTimeInSeconds < 1){ // Change to === 0 when getting rid of debug-end-timer
+		if (remainingTimeInSeconds === 0){
 			endTimer();
 		}
 	}
 
+	// Updates (if needed) and formats correct time on screen
 	function updateTimerDisplay() { 
 		// Update seconds display
 		console.log('seconds changed: ' + seconds);
@@ -119,7 +166,7 @@ $(document).ready(function(){
 		}
 
 		// Update minutes display
-		if (minutes !== prevMinutes) { // Only update if minutes has changed or is being set for first time
+		if (minutes !== prevMinutes) { // Only update if minutes has changed or hasn't been set yet
 			console.log('minutes changed: ' + minutes);
 			if (minutes < 10 && hours > 0){
 				$minsDisplay.text('0' + minutes.toString());
@@ -129,7 +176,7 @@ $(document).ready(function(){
 		}
 
 		// Update hours display
-		if (hours !== prevHours) { // Only update if hours has changed or is being set for first time
+		if (hours !== prevHours) { // Only update if hours has changed or hasn't been set yet
 			console.log('hours changed: ' + hours);
 			if (hours === 0){
 				$hrsDisplay.text('');
@@ -140,28 +187,56 @@ $(document).ready(function(){
 		}
 	}
 
+	// Clears setInterval and hides pause/play/end early buttons. Shows New Session button
 	function endTimer() {
-		clearInterval(intervalID);
 		console.log('timer stopped');
+		clearInterval(intervalID);
 		$endEarlyBtn.addClass('hide');
-		$pauseButton.addClass('hide');
-		printEndMessage();
+		if($pauseBtn.hasClass('hide')) { 	// If user paused the timer and then ended session, play button is showing
+			$playBtn.addClass('hide');
+		} else {
+			$pauseBtn.addClass('hide');	
+		}
 		$newSessionBtn.removeClass('hide');
-		$('.screen').after($postMeditationMsg);
+		printEndMessage();
+
+		hours = null;
+		minutes = null;
+		seconds = null;
 	}
 
+
+	// Derive hours/minutes/seconds value for display from total seconds
+	function getHours(timeInSeconds) {
+		return Math.floor(timeInSeconds/3600);
+	}
+
+	function getMinutes(hrs, timeInSeconds) {
+		return timeInSeconds >= 3600 ? Math.floor( (timeInSeconds - (hrs * 3600))/60) : Math.floor(timeInSeconds/60);
+	}
+
+	function getSeconds(timeInSeconds) {
+		return timeInSeconds % 60;
+	}
+
+
+	// Prints a message telling user how long they meditated for
 	function printEndMessage() {
-		var hoursMeditated = startingHours - hours;
-		console.log(hoursMeditated);
-		var minutesMeditated = startingMinutes - minutes;
-		console.log(minutesMeditated);
+		var totalSecondsMeditated = startingTimeInSeconds - remainingTimeInSeconds;
+		console.log('totaltime: ' + totalSecondsMeditated);
+		var hoursMeditated = getHours(totalSecondsMeditated);
+		var minutesMeditated = getMinutes(hoursMeditated, totalSecondsMeditated);
+		console.log('hoursmeditated: ' + hoursMeditated);
+		console.log('minutesmeditated: ' + minutesMeditated);
+
 		if (hoursMeditated && minutesMeditated) {
-			$postMeditationMsg.text('You meditated for ' + hoursMeditated + ' ' + getSingularOrPlural('hour',hoursMeditated) + ' and ' + minutesMeditated + ' ' + getSingularOrPlural('minute', minutesMeditated) + '.');
+			$postMeditationMsg.text('You meditated for ' + hoursMeditated + ' ' + getSingularOrPlural('hour', hoursMeditated) + ' and ' + minutesMeditated + ' ' + getSingularOrPlural('minute', minutesMeditated) + '.');
 		} else if (hoursMeditated && !minutesMeditated) { 
 			$postMeditationMsg.text('You meditated for ' + hoursMeditated + ' ' + getSingularOrPlural('hour', hoursMeditated) + '.');
 		} else if (!hoursMeditated && minutesMeditated) {
-			$postMeditationMsg.text('You meditated for ' + minutesMeditated + ' ' + getSingularOrPlural('minute', hoursMeditated) + '.');
+			$postMeditationMsg.text('You meditated for ' + minutesMeditated + ' ' + getSingularOrPlural('minute', minutesMeditated) + '.');
 		}
+		$('.screen').after($postMeditationMsg);
 	}
 
 	function getSingularOrPlural(text, number) {
@@ -172,23 +247,9 @@ $(document).ready(function(){
 		}
 	}
 
-	$pauseButton.on('click',function(e) {
-		clearInterval(intervalID);
-		$(this).toggleClass('hide');
-		$playButton.toggleClass('hide');
-	});
+	function showValidationMsg(msg) {
+		$validationMsg.text(msg);
+		$validationMsg.removeClass('hide'); 									
+	}
 
-	$playButton.on('click',function(e) {
-		startTimer();
-		$(this).toggleClass('hide');
-		$pauseButton.toggleClass('hide');
-	});
-
-	$endEarlyBtn.on('click', function(e) {
-		endTimer(true);
-	});
-
-	$('.debug-end-timer').on('click', function(e){
-		totalTimeInSeconds = 0;
-	});
 });

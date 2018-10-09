@@ -23,6 +23,7 @@ button,hr,input{overflow:visible}progress,sub,sup{vertical-align:baseline}[type=
 
 */
 
+
 /* Global Styles */
 
 html {
@@ -47,6 +48,7 @@ body {
 	background: linear-gradient(to top, #ff5e62, #ff9966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+
 /* Header */
 
 header {
@@ -69,9 +71,10 @@ header a:hover {
 	opacity: 1;
 }
 
+
 /* Main Content */
 
-.content-wrapper {
+.wrapper {
 	height: 100%;
 	position: relative;
 }
@@ -98,9 +101,10 @@ main {
 	}
 }
 
+
 /* Timer Form */
 
-.timer-wrapper {
+.main-content-wrapper {
 	margin-top: -10em;
 }
 
@@ -111,12 +115,13 @@ main h2 {
 	line-height: 1;
 }
 
-form {
+fieldset {
 	background: rgba(0,0,0,0.3);
 	font-size: 2em;
 	padding: 1em;
 	border-radius: 1em;
 	color: rgba(0,0,0,0.5);
+	border: none;
 }
 
 input[type="text"] {
@@ -158,7 +163,7 @@ input[type="text"]:focus {
 	outline: none;
 }
 
-form button {
+fieldset button {
 	background: rgba(0,0,0,0.3);
 	border-radius: 10px;
 	padding: .3em;
@@ -167,15 +172,15 @@ form button {
 	border: 0;
 }
 
-form button:hover {
+fieldset button:hover {
 	color: rgba(255,255,255,0.8);
 }
 
-form button:focus {
+fieldset button:focus {
 	outline: none;
 }
 
-form div {
+fieldset div {
 	display: none;
 	font-size: 1rem;
 	margin: 0;
@@ -185,7 +190,7 @@ form div {
 }
 
 @media (max-width: 991px) {
-	.timer-wrapper {
+	.main-content-wrapper {
 		margin: 0;
 	}
 
@@ -193,7 +198,7 @@ form div {
 		font-size: 2em;
 	}
 
-	.toggle-on form {
+	.toggle-on fieldset {
 		font-size: 1.5em;
 	}
 }
@@ -204,7 +209,7 @@ form div {
 		font-size: 2em;
 	}
 
-	form {
+	fieldset {
 		font-size: 1.5em;
 	}
 }
@@ -214,22 +219,13 @@ form div {
 		font-size: 1.75em;
 	}
 
-	form {
+	fieldset {
 		font-size: 1.25em;
 	}
 }
 
+
 /* Timer */
-
-/* Temp */
-
-/*.timer {
-	display: block !important;
-}
-
-.timer-wrapper h2, .timer-wrapper form{
-	display: none !important; 
-}*/
 
 .screen {
 	font-size: 5em;
@@ -378,6 +374,7 @@ aside a:hover {
 	}
 }
 
+
 /* Misc */
 
 .show {
@@ -387,6 +384,7 @@ aside a:hover {
 .hide {
 	display: none;
 }
+
 
 /* Debug */
 
