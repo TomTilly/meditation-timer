@@ -37,7 +37,6 @@ $(document).ready(function(){
 	} else if (tibetanBellSound.canPlayType('audio/ogg')) {
 		tibetanBellSound.setAttribute('src', 'assets/tibetan-bell.ogg');
 	}
-
 	
 
 
