@@ -4,6 +4,7 @@ $(document).ready(function(){
 	var $hrsInput = $('input[type="text"]:first-of-type');
 	var $minsInput = $('input[type="text"]:last-of-type');
 	var $validationMsg = $('fieldset div');
+	var $timerForm = $('form');
 	
 	// Timer Display Elements
 	var $hrsDisplay = $('.hours-remaining');
@@ -18,7 +19,6 @@ $(document).ready(function(){
 	var $playBtn = $('.play-btn');
 	var $pauseBtn = $('.pause-btn');
 	var $timerContainer = $('.timer');
-	var $timerForm = $('form');
 
 	// For use in timer logic
 	var remainingTimeInSeconds;
@@ -27,6 +27,22 @@ $(document).ready(function(){
 	var startingTimeInSeconds;
 	var prevHours, prevMinutes;		// Stores previous hours/minutes to check whether they've changed
 	var intervalID;					// ID used to cancel setInterval
+
+	// Create bell audio element and provide multiple formats for cross browser support
+	var tibetanBellSound = new Audio();
+	tibetanBellSound.volume = 0.15;
+
+	if (tibetanBellSound.canPlayType('audio/ogg')) {
+		console.log("hello");
+		tibetanBellSound.setAttribute('src', 'assets/tibetan-bell.ogg');
+	}
+
+	if (tibetanBellSound.canPlayType('audio/mpeg')) {
+		console.log("hello");
+		tibetanBellSound.setAttribute('src', 'assets/tibetan-bell.m4a');
+	}
+
+	console.log("src = " + tibetanBellSound.getAttribute('src'));
 
 
 
@@ -100,7 +116,7 @@ $(document).ready(function(){
 			
 			updateTimerDisplay();			// Display initial time to user
 			startingTimeInSeconds = remainingTimeInSeconds = (hours * 3600) + (minutes * 60);
-			startTimer();
+			startTimer(true);
 		}
 	});
 
@@ -113,14 +129,14 @@ $(document).ready(function(){
 
 	// Remove play button on click and replace with pause button
 	$playBtn.on('click',function() {
-		startTimer();
+		startTimer(false);
 		$(this).toggleClass('hide');
 		$pauseBtn.toggleClass('hide');
 	});
 
 	// End timer when End Session Early button clicked
 	$endEarlyBtn.on('click', function() {
-		endTimer();
+		endTimer(false);
 	});
 
 	// Start New Session button clicked: reset form values, remove timer, show timer form
@@ -145,8 +161,13 @@ $(document).ready(function(){
 	// startTimer
 	// - Calls updateTimerLogic every second
 	// - Sets intervalID for use in clearing setInterval later
-	function startTimer(){
+	// - Takes playBell (bool) parameter which determines whether bell should play
+	function startTimer(playBell){
 		console.log('startTimer called');
+		if (playBell) {
+			tibetanBellSound.currentTime = 0; // Make sure it plays from beginning
+			tibetanBellSound.play();
+		}
 		intervalID = setInterval(updateTimerLogic, 1000);
 	}
 
@@ -166,7 +187,7 @@ $(document).ready(function(){
 		updateTimerDisplay();
 		
 		if (remainingTimeInSeconds === 0){
-			endTimer();
+			endTimer(true);
 		}
 	}
 
@@ -203,11 +224,16 @@ $(document).ready(function(){
 	}
 
 	// Clears setInterval and hides pause/play/end early buttons. Shows New Session button
-	function endTimer() {
+	// Takes playBell (bool) param to see if bell should play (bell should only play when user doesn't end session early)
+	function endTimer(playBell) {
 		console.log('timer stopped');
 		clearInterval(intervalID);
+		if (playBell) {
+			tibetanBellSound.currentTime = 0;
+			tibetanBellSound.play();
+		}
 		$endEarlyBtn.addClass('hide');
-		if($pauseBtn.hasClass('hide')) { 	// If user paused the timer and then ended session, play button is showing
+		if ($pauseBtn.hasClass('hide')) { 	// If user paused the timer and then ended session, play button is showing
 			$playBtn.addClass('hide');
 		} else {
 			$pauseBtn.addClass('hide');	
@@ -265,6 +291,12 @@ $(document).ready(function(){
 		console.log('hello');
 		$validationMsg.text(msg);
 		$validationMsg.removeClass('hide');								
+	}
+
+
+	// Add bell sound at start and end
+	function ringBell() { 
+
 	}
 
 });
