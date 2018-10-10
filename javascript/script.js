@@ -30,7 +30,7 @@ $(document).ready(function(){
 
 	// Create bell audio element and provide multiple formats for cross browser support
 	var tibetanBellSound = new Audio();
-	tibetanBellSound.volume = 0.15;
+	tibetanBellSound.volume = 0.15; // Lower volume for more relaxing effect
 
 	if (tibetanBellSound.canPlayType('audio/ogg')) {
 		console.log("hello");
@@ -65,10 +65,6 @@ $(document).ready(function(){
 
 	// Form submission validation - Start timer if successful
 	$('form button').on('click', function(e){
-		// DEBUGGING
-		console.log('pre-initial hours: ' + hours);
-		console.log('pre-initial minutes: ' + minutes);
-
 		e.preventDefault();
 		hours = Number($hrsInput.val());	// Converts string into number (0 if '', NaN if non-numerical characters used)
 		minutes = Number($minsInput.val());
@@ -77,11 +73,6 @@ $(document).ready(function(){
 		// Set to null in case they've been set in previous iteration of timer
 		prevMinutes = null;
 		prevHours = null;
-
-		// DEBUGGING
-		console.log($hrsInput.val());
-		console.log(hours);
-		console.log(minutes);
 
 		$validationMsg.addClass('hide'); 	// Hide error message in case it was previously shown
 
@@ -96,9 +87,8 @@ $(document).ready(function(){
 			showValidationMsg('*Enter a number for hrs between 0 and 24');
 		} else if (minutes < 0 || minutes > 59) {
 			showValidationMsg('*Enter a number for mins between 0 and 59');
-		// DEBUGGING (temporarily hide until debugging ends)
-		// } else if ( !Number.isInteger(hours) || !Number.isInteger(minutes)) {
-			// showValidationMsg('*Decimal values not allowed');
+		} else if ( !Number.isInteger(hours) || !Number.isInteger(minutes)) {
+			showValidationMsg('*Decimal values not allowed');
 		} else {	// Validation passed
 			$hrsColon.text(':');			// Add colon in case it was removed in previous timer use
 			
@@ -148,9 +138,10 @@ $(document).ready(function(){
 		$timerContainer.addClass('hide');
 	});
 
-	$('.debug-end-timer').on('click', function(e){
-		remainingTimeInSeconds = 5;
-	});
+	// Use for ending timer early if needed for debugging
+	// $('.debug-end-timer').on('click', function(e){
+	// 	remainingTimeInSeconds = 5;
+	// });
 
 
 
@@ -287,16 +278,8 @@ $(document).ready(function(){
 	}
 
 	function showValidationMsg(msg) {
-		// DEBUGGING
-		console.log('hello');
 		$validationMsg.text(msg);
 		$validationMsg.removeClass('hide');								
-	}
-
-
-	// Add bell sound at start and end
-	function ringBell() { 
-
 	}
 
 });
