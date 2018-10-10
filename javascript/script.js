@@ -32,18 +32,13 @@ $(document).ready(function(){
 	var tibetanBellSound = new Audio();
 	tibetanBellSound.volume = 0.15; // Lower volume for more relaxing effect
 
-	if (tibetanBellSound.canPlayType('audio/ogg')) {
-		console.log("hello");
+	if (tibetanBellSound.canPlayType('audio/mpeg')) {
+		tibetanBellSound.setAttribute('src', 'assets/tibetan-bell.m4a');
+	} else if (tibetanBellSound.canPlayType('audio/ogg')) {
 		tibetanBellSound.setAttribute('src', 'assets/tibetan-bell.ogg');
 	}
 
-	if (tibetanBellSound.canPlayType('audio/mpeg')) {
-		console.log("hello");
-		tibetanBellSound.setAttribute('src', 'assets/tibetan-bell.m4a');
-	}
-
-	console.log("src = " + tibetanBellSound.getAttribute('src'));
-
+	
 
 
 // ====================================
@@ -154,7 +149,6 @@ $(document).ready(function(){
 	// - Sets intervalID for use in clearing setInterval later
 	// - Takes playBell (bool) parameter which determines whether bell should play
 	function startTimer(playBell){
-		console.log('startTimer called');
 		if (playBell) {
 			tibetanBellSound.currentTime = 0; // Make sure it plays from beginning
 			tibetanBellSound.play();
@@ -163,7 +157,6 @@ $(document).ready(function(){
 	}
 
 	function updateTimerLogic(){
-		console.log('updateTimer called');
 		
 		remainingTimeInSeconds--;
 
@@ -185,7 +178,6 @@ $(document).ready(function(){
 	// Updates (if needed) and formats correct time on screen
 	function updateTimerDisplay() { 
 		// Update seconds display
-		console.log('seconds changed: ' + seconds);
 		if (seconds >= 10) {
 			$secondsDisplay.text(seconds.toString());
 		} else {
@@ -194,7 +186,6 @@ $(document).ready(function(){
 
 		// Update minutes display
 		if (minutes !== prevMinutes) { // Only update if minutes has changed or hasn't been set yet
-			console.log('minutes changed: ' + minutes);
 			if (minutes < 10 && hours > 0){
 				$minsDisplay.text('0' + minutes.toString());
 			} else {
@@ -204,7 +195,6 @@ $(document).ready(function(){
 
 		// Update hours display
 		if (hours !== prevHours) { // Only update if hours has changed or hasn't been set yet
-			console.log('hours changed: ' + hours);
 			if (hours === 0){
 				$hrsDisplay.text('');
 				$hrsColon.text('');
@@ -217,7 +207,6 @@ $(document).ready(function(){
 	// Clears setInterval and hides pause/play/end early buttons. Shows New Session button
 	// Takes playBell (bool) param to see if bell should play (bell should only play when user doesn't end session early)
 	function endTimer(playBell) {
-		console.log('timer stopped');
 		clearInterval(intervalID);
 		if (playBell) {
 			tibetanBellSound.currentTime = 0;
@@ -252,11 +241,8 @@ $(document).ready(function(){
 	function printEndMessage() {
 		$postMeditationMsg.text(''); // Reset print message in case it's been shown before
 		var totalSecondsMeditated = startingTimeInSeconds - remainingTimeInSeconds;
-		console.log('totaltime: ' + totalSecondsMeditated);
 		var hoursMeditated = getHours(totalSecondsMeditated);
 		var minutesMeditated = getMinutes(hoursMeditated, totalSecondsMeditated);
-		console.log('hoursmeditated: ' + hoursMeditated);
-		console.log('minutesmeditated: ' + minutesMeditated);
 
 		if (hoursMeditated && minutesMeditated) {
 			$postMeditationMsg.text('You meditated for ' + hoursMeditated + ' ' + getSingularOrPlural('hour', hoursMeditated) + ' and ' + minutesMeditated + ' ' + getSingularOrPlural('minute', minutesMeditated) + '.');
